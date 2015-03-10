@@ -1,8 +1,6 @@
 require 'require_all'
 require 'midilib/sequence'
 require 'midilib/consts'
-require "unimidi"
-require 'midi-eye'
 require_all "../src/include"
 
 include MIDI

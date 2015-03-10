@@ -1,6 +1,5 @@
 require 'rubygems'
 require 'gnuplot'
-require 'gruff'
 
 def graph_from_intervals(filename, intervals, last_event)
   g = Gruff::Line.new("1000x400")
