@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="no-js ie9 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js js" lang="en"><!--<![endif]--><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Compile instructions (Mac OS X) - Git | MuseScore</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="prev" href="http://musescore.org/en/developers-handbook/compilation/compile-instructions-windows-mingw-git">
+
+<link rel="up" href="http://musescore.org/en/developers-handbook/compilation">
+
+<link rel="next" href="http://musescore.org/en/developers-handbook/compile-instructions-mac-os-x-105-svn-trunk">
+
+<link rel="shortcut icon" href="http://musescore.org/sites/musescore.org/files/musescoret_favicon_0.ico" type="image/x-icon">
+<meta name="description" content="Create, play back and print beautiful sheet music with free and easy to use music notation software MuseScore. For Windows, Mac and Linux."><meta name="keywords" content="music, notation, software, free, open source, composition, composing, arranging, making, writing, sheet music, lead sheet, leadsheet, score, full score, scorewriter, sibelius, finale, midi, musicxml, print, play">  <link type="text/css" rel="stylesheet" media="all" href="musescore_compile_instructions_files/css_3f4f7dddbaab3991d84defa7d80fdef9.css">
+<link type="text/css" rel="stylesheet" media="print" href="musescore_compile_instructions_files/css_4691c742f8356771be871fb8124af38a.css">
+  <script src="musescore_compile_instructions_files/ga.js" async="" type="text/javascript"></script><script type="text/javascript" src="musescore_compile_instructions_files/js_b373671c53e144b953d82df5d3ab1d62.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, {"basePath":"\/","googleanalytics":{"trackOutbound":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|avi|csv|doc|exe|flv|gif|gz|jpe?g|js|mp(3|4|e?g)|mov|pdf|phps|png|ppt|rar|sit|tar|torrent|txt|wma|wmv|xls|xml|zip|dmg|mscz|mscx|bz2"},"syntaxhighlighter":null,"musescore":{"ytlang":"en","destination":"destination=node%2F12581"},"popups":{"originalCSS":{"\/sites\/all\/modules\/contrib\/project\/project.css":1,"\/sites\/all\/modules\/contrib\/project_issue\/project_issue.css":1,"\/modules\/book\/book.css":1,"\/modules\/node\/node.css":1,"\/modules\/poll\/poll.css":1,"\/modules\/system\/defaults.css":1,"\/modules\/system\/system.css":1,"\/modules\/system\/system-menus.css":1,"\/modules\/user\/user.css":1,"\/sites\/all\/modules\/contrib\/cck\/theme\/content-module.css":1,"\/sites\/all\/modules\/contrib\/ctools\/css\/ctools.css":1,"\/sites\/all\/modules\/contrib\/filefield\/filefield.css":1,"\/sites\/all\/modules\/contrib\/google_cse\/google_cse.css":1,"\/sites\/all\/modules\/contrib\/mollom\/mollom.css":1,"\/sites\/all\/libraries\/syntaxhighlighter\/styles\/shCore.css":1,"\/sites\/all\/libraries\/syntaxhighlighter\/styles\/shThemeDefault.css":1,"\/modules\/forum\/forum.css":1,"\/sites\/all\/modules\/contrib\/views\/css\/views.css":1,"\/sites\/all\/themes\/musescoret\/css\/html-reset.css":1,"\/sites\/all\/themes\/musescoret\/css\/layout-fixed.css":1,"\/sites\/all\/themes\/musescoret\/css\/page-backgrounds.css":1,"\/sites\/all\/themes\/musescoret\/css\/tabs.css":1,"\/sites\/all\/themes\/musescoret\/css\/messages.css":1,"\/sites\/all\/themes\/musescoret\/css\/pages.css":1,"\/sites\/all\/themes\/musescoret\/css\/block-editing.css":1,"\/sites\/all\/themes\/musescoret\/css\/blocks.css":1,"\/sites\/all\/themes\/musescoret\/css\/navigation.css":1,"\/sites\/all\/themes\/musescoret\/css\/panels-styles.css":1,"\/sites\/all\/themes\/musescoret\/css\/views-styles.css":1,"\/sites\/all\/themes\/musescoret\/css\/nodes.css":1,"\/sites\/all\/themes\/musescoret\/css\/comments.css":1,"\/sites\/all\/themes\/musescoret\/css\/forms.css":1,"\/sites\/all\/themes\/musescoret\/css\/fields.css":1,"\/sites\/all\/themes\/musescoret\/css\/style.css":1,"\/sites\/all\/themes\/musescoret\/js\/chosen\/chosen.css":1},"originalJS":{"\/sites\/all\/modules\/contrib\/google_analytics\/googleanalytics.js":1,"\/sites\/all\/modules\/contrib\/mollom\/mollom.js":1,"\/sites\/all\/libraries\/syntaxhighlighter\/scripts\/shCore.js":1,"\/sites\/all\/libraries\/syntaxhighlighter\/scripts\/shBrushBash.js":1,"\/sites\/all\/libraries\/syntaxhighlighter\/scripts\/shBrushCpp.js":1,"\/sites\/all\/libraries\/syntaxhighlighter\/scripts\/shBrushJScript.js":1,"\/sites\/all\/libraries\/syntaxhighlighter\/scripts\/shBrushXml.js":1,"\/sites\/all\/modules\/custom\/musescore\/musescore.js":1,"\/sites\/all\/modules\/contrib\/google_cse\/google_cse.js":1,"\/sites\/all\/modules\/contrib\/syntaxhighlighter\/syntaxhighlighter.min.js":1,"\/sites\/all\/themes\/musescoret\/js\/script.js":1,"\/sites\/all\/themes\/musescoret\/js\/jquery-ui.js":1,"\/sites\/all\/themes\/musescoret\/js\/chosen\/chosen.jquery.min.js":1}}});
+//--><!]]>
+</script>
+</head>
+<body class="page not-front not-logged-in node-type-book i18n-en page-developers-handbook-compilation-compile-instructions-mac-os-x-git section-developers-handbook one-sidebar sidebar-second ms ms-is-processed tableHeader-processed">
+
+  <div id="page">
+    <div id="header"><div class="section no-underlines clearfix">
+
+      <div id="header-left">
+
+        <div id="logo">
+                      <h1><a href="http://musescore.org/en">MuseScore</a></h1>
+                  </div>
+
+        <div id="block-views--exp-sheets-scores_solr">
+          <div class="content">
+            <form action="https://musescore.com/sheetmusic" accept-charset="UTF-8" method="get" id="views-exposed-form-sheets-scores-solr">
+              <div>
+                <div class="combined-text-submit">
+                  <div class="form-item" id="edit-text-wrapper">
+                    <input maxlength="128" name="text" id="edit-text" size="15" value="Search for sheet music" title="Search for sheet music" class="form-text" type="text">
+                  </div>
+                  <input id="edit-submit-sheets" value="Search" class="form-submit" type="submit">
+                  <span class="icon icon-search"></span>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div id="header-right">
+        <div id="account-menu"><ul class="swap-underlines"><li class="first"><a href="https://musescore.com/user/login?destination=node%2F12581" class="cas-login-link">Log In</a></li>
+<li class="last"><a href="https://musescore.com/user/register">Create Account</a></li>
+</ul></div>
+        <div id="primary-menu"><ul><li class="first"><a href="https://musescore.com/sheetmusic">Sheet Music</a></li>
+<li><a href="http://musescore.org/en">Software</a></li>
+<li class="last"><a href="https://musescore.com/upload">Upload</a></li>
+</ul></div>
+      </div>
+
+    </div></div><!-- /.section, /#header -->
+    <div id="main" class="clearfix">
+                        <div id="content" class="column"><div class="section">
+        
+        
+                  <div class="breadcrumb"><a href="http://musescore.org/en">Home</a> › <a href="http://musescore.org/en/developers-handbook">Developers' handbook</a> › <a href="http://musescore.org/en/developers-handbook/compilation">Compilation</a> › </div>
+        
+                  <h1 class="title">Compile instructions (Mac OS X) - Git</h1>
+        
+                
+
+        <div id="content-area">
+          <div id="node-12581" class="node node-type-book build-mode-full clearfix">
+  
+  
+  
+  
+    
+
+  <div class="content">
+    <p>Use these instructions to compile MuseScore on Mac OS X 10.8+. </p>
+<h3 id="Setting-the-build-and-development-environment" class="toc-h">Setting the build and development environment <a style="display: none;" class="toc-anchor" href="#Setting-the-build-and-development-environment">#</a></h3>
+<ol>
+<li>On Mac OS X 10.8+, install the last version of Xcode from the Mac App Store.</li>
+<li>Launch Xcode and accept the licence</li>
+<li>In Xcode, go to Preferences -&gt; Download and install the Command line Tools. With Xcode 5, you might need to run <code>xcode-select --install</code> instead.</li>
+<li>Install the dependencies. If you prefer Homebrew (advised),<br>
+<pre>$ ruby -e "$(curl -fsSL <a href="https://raw.github.com/Homebrew/homebrew/go/install" title="https://raw.github.com/Homebrew/homebrew/go/install">https://raw.github.com/Homebrew/homebrew/go/install</a>)"
+$ brew install libogg libsndfile libvorbis pkg-config portaudio jack lame cmake git
+</pre></li>
+<li>If you prefer MacPorts, choose the DMG of your OS and install <a href="http://www.macports.org/install.php">MacPorts</a><br>
+Open a terminal and enter the following (in your home):<p></p>
+<pre>$ sudo port install git libsndfile pkgconfig lame portaudio jack cmake
+</pre></li>
+<li>Qt 5.4 is shipped as a online installer, suitable for 10.7+. <a href="http://qt-project.org/downloads">Download</a>, open the DMG and run the online installer. By default it will install Qt 5.4 in your home directory.
+</li>
+<li>Open a terminal and enter the following (in your home):
+</li>
+<li>Append the following line to <code>~/.profile</code><br>
+<pre>PATH=$PATH:~/Qt/5.4/clang_64/bin</pre><p>and run </p>
+<pre>source ~/.profile</pre></li>
+<li>Clone the repository from GitHub:<br>
+<pre>git clone git://github.com/musescore/MuseScore.git
+</pre><p>If you plan to contribute to MuseScore, you can setup your own fork on GitHub and clone it instead. See the <a href="http://musescore.org/en/developers-handbook/git-workflow" title="Git Workflow">Git Workflow</a> page.
+</p></li>
+</ol>
+<h3 id="Building-MuseScore" class="toc-h">Building MuseScore <a style="display: none;" class="toc-anchor" href="#Building-MuseScore">#</a></h3>
+<ol>
+<li>In a terminal, enter:<br>
+<pre>cd MuseScore</pre></li>
+<li>Set the revision SHA1 for this build<br>
+<pre>make revision</pre></li>
+<li>Start the actual compilation. It takes more than one hour on a 
+MacBook 2 GHz but it's pretty fast on a MacBook Pro Core i7 (4 to 5 
+minutes max).<br>
+<pre>make -f Makefile.osx release</pre></li>
+<li>Call the install target. The bundle is copied from the Release 
+directory into the applebuild directory. All resources (such as help and
+ templates) are added to it<br>
+<pre>make -f Makefile.osx install</pre></li>
+<li>The package step. This target calls a script derived from <a href="http://techbase.kde.org/Projects/Marble">this one</a>.
+ It creates a self-contained bundle, thanks to macdeployqt, by adding 
+and stripping the Qt libraries into the MuseScore bundle. It also adds 
+Qt plugins, PortAudio and libsndfile. A DMG file is the result<br>
+<pre>make -f Makefile.osx package</pre></li>
+</ol>
+<h3 id="Debugging-and-developing-MuseScore" class="toc-h">Debugging and developing MuseScore <a style="display: none;" class="toc-anchor" href="#Debugging-and-developing-MuseScore">#</a></h3>
+<p>If you are a developer, look at the <code>xcode</code> target in the 
+makefile. It generates a xcodeproj file. You can open this xcodeproj 
+file and use the Apple IDE for tasks such as modifying, debugging and 
+compiling MuseScore code.</p>
+<p>Run </p>
+<pre>make -f Makefile.osx xcode</pre><p>
+Then open the xcodeproj bundle in Xcode</p>
+<pre>open build.xcode/mscore.xcodeproj</pre><p>
+In Xcode, run the <code>ALL_BUILD</code> scheme. It will compile all the files. Then run the <code>install</code> scheme. It will install the required files (fonts, images etc...) for runtime. Debug by running the <code>mscore</code> scheme.</p>
+<p>In Xcode 5 and 6, you might need to uncheck “Allow debugging when 
+using document Versions Browser” in Product--&gt;Edit Scheme .. 
+--&gt;Run mscore.app. Otherwise --NSDocumentRevisionsDebugMode YES gets 
+passed to MuseScore, and it doesn't know how to handle it.</p>
+<p>The preferred way to contribute is via a <a href="http://help.github.com/send-pull-requests/">Pull Request on GitHub</a>. Patches are also welcome on the <a href="http://dev-list.musescore.org/">Developer Mailing List</a>, or on the <a>Issue Tracker</a>. </p>
+<h3 id="Building-a-release-for-distribution" class="toc-h">Building a release for distribution <a style="display: none;" class="toc-anchor" href="#Building-a-release-for-distribution">#</a></h3>
+<p>Dependencies built with Homebrew will not run on older versions of Mac OS X. Here is a <a href="http://musescore.org/sites/musescore.org/files/bottles.zip">zip file</a> with the dependencies as <a href="">"bottles"</a> built on Mac OS X 10.7. They can be installed with <code>brew install (tar.gz) file</code>.</p>
+<table style="position: fixed; top: 0px; width: 134px; left: 401px; visibility: hidden;" class="sticky-header"><thead><tr><th style="width: 71px;">Attachment</th><th style="width: 37px;">Size</th> </tr></thead></table><table id="attachments" class="sticky-enabled sticky-table">
+ <thead class="tableHeader-processed"><tr><th>Attachment</th><th>Size</th> </tr></thead>
+<tbody>
+ <tr class="odd"><td><a href="http://musescore.org/sites/musescore.org/files/bottles.zip">bottles.zip</a></td><td>1.97 MB</td> </tr>
+</tbody>
+</table>
+  <div id="book-navigation-76" class="book-navigation">
+    <ul class="menu"><li class="leaf last"><a href="http://musescore.org/en/developers-handbook/compile-instructions-mac-os-x-105-svn-trunk">Compile instructions (Mac OS X 10.5) - SVN trunk</a></li>
+</ul>
+        <div class="page-links clear-block">
+              <a href="http://musescore.org/en/developers-handbook/compilation/compile-instructions-windows-mingw-git" class="page-previous" title="Go to previous page">‹ Compile instructions (Windows - MinGW) - Git</a>
+                    <a href="http://musescore.org/en/developers-handbook/compilation" class="page-up" title="Go to parent page">up</a>
+                    <a href="http://musescore.org/en/developers-handbook/compile-instructions-mac-os-x-105-svn-trunk" class="page-next" title="Go to next page">Compile instructions (Mac OS X 10.5) - SVN trunk ›</a>
+          </div>
+    
+  </div>
+  </div>
+
+    
+  
+  <div class="node-footer">
+    <span class="links">
+      <ul class="links inline"><li class="book_printer first last"><a href="http://musescore.org/en/print/book/export/html/12581" title="Display a printer-friendly version of this page." class="print-page" rel="nofollow">Printer-friendly version</a></li>
+</ul>    </span>
+      </div>
+</div><!-- /.node -->
+        </div>
+
+        
+        
+      </div></div><!-- /.section, /#content -->
+
+      
+            <div class="region region-sidebar-second column sidebar"><div class="section">
+  <div id="block-search-0" class="block block-search first region-odd odd region-count-1 count-1">
+  
+  <div class="content">
+    <form action="/en/search/site" accept-charset="UTF-8" method="post" id="search-block-form">
+<div><div class="container-inline combined-text-submit">
+  <div class="form-item" id="edit-search-block-form-1-wrapper">
+ <label for="edit-search-block-form-1">Search this site: </label>
+ <input maxlength="128" name="search_block_form" id="edit-search-block-form-1" size="15" value="Search for help" title="Search for help" class="form-text" type="text">
+</div>
+<input name="op" id="edit-submit" value="Search" class="form-submit" type="submit">
+<input name="form_build_id" id="form-8490c59e5ea3baed5fa45ec48e5b0e15" value="form-8490c59e5ea3baed5fa45ec48e5b0e15" type="hidden">
+<input name="form_id" id="edit-search-block-form" value="search_block_form" type="hidden">
+  <span class="icon icon-search"></span>
+</div>
+</div></form>
+  </div>
+
+  </div><!-- /.block -->
+<div id="block-menu-secondary-links" class="block block-menu region-even even region-count-2 count-2">
+      <h2 class="title">MuseScore Software</h2>
+  
+  <div class="content">
+    <ul class="menu"><li class="leaf first"><a href="http://musescore.org/en/download" title="Download">Download</a></li>
+<li class="leaf"><a href="http://musescore.org/en/musescore-tour-1" title="MuseScore Tour">Tour</a></li>
+<li class="leaf"><a href="http://musescore.org/en/handbook" title="Handbook">Handbook</a></li>
+<li class="leaf"><a href="http://musescore.org/en/tutorials" title="">Tutorials</a></li>
+<li class="leaf"><a href="http://musescore.org/en/forum" title="">Forums</a></li>
+<li class="leaf"><a href="http://musescore.org/en/services" title="">Services</a></li>
+<li class="leaf"><a href="http://musescore.org/en/development" title="Development">Development</a></li>
+<li class="leaf"><a href="http://musescore.org/en/donate" title="Donate">Donate</a></li>
+<li class="leaf"><a href="http://musescore.org/en/faq" title="">FAQ</a></li>
+<li class="leaf"><a href="http://musescore.org/en/howto" title="">How to</a></li>
+<li class="leaf"><a href="http://musescore.org/en/links?language=en" title="">Links</a></li>
+<li class="leaf last"><a href="http://musescore.org/en/plugins">Plugins</a></li>
+</ul>  </div>
+
+  </div><!-- /.block -->
+<div id="block-menu-menu-musescore-2" class="block block-menu region-odd odd region-count-3 count-3">
+      <h2 class="title">MuseScore 2.0 beta</h2>
+  
+  <div class="content">
+    <ul class="menu"><li class="leaf first"><a href="http://musescore.org/en/handbook-2.0" title="">Handbook</a></li>
+<li class="leaf"><a href="http://musescore.org/en/forum/687" title="">Forum</a></li>
+<li class="leaf"><a href="http://musescore.org/en/node/42051" title="">Download</a></li>
+<li class="leaf last"><a href="http://musescore.org/en/node/47931" title="">Translate</a></li>
+</ul>  </div>
+
+  </div><!-- /.block -->
+<div id="block-musescore-4" class="block block-musescore region-even even region-count-4 count-4">
+      <h2 class="title">Languages</h2>
+  
+  <div class="content">
+    
+  <!-- 0 -->
+  <div id="language-select-form">
+    <form action="" method="post">
+      <div>
+        <select id="language-select-list" onchange="document.location.href=this.options[this.selectedIndex].value;"><option value="/en" selected="selected">English</option><option value="/af">Afrikaans</option><option value="/ar">العربية</option><option value="/be">Беларуская</option><option value="/bg">Български</option><option value="/ca">Català</option><option value="/cs">Čeština</option><option value="/da">Dansk</option><option value="/de">Deutsch</option><option value="/et">Eesti</option><option value="/el">Ελληνικά</option><option value="/es">Español</option><option value="/eo">Esperanto</option><option value="/fa">فارسی</option><option value="/eu">Euskera</option><option value="/fo">Faeroese</option><option value="/fr">Français</option><option value="/gl">Galego</option><option value="/ko">한국어</option><option value="/sr">Српски</option><option value="/hr">Hrvatski</option><option value="/id">Bahasa Indonesia</option><option value="/it">Italiano</option><option value="/he">עברית</option><option value="/lt">Lietuvių</option><option value="/hu">Magyar</option><option value="/nl">Nederlands</option><option value="/ja">日本語</option><option value="/nb">Norsk</option><option value="/pl">Polski</option><option value="/pt-br">Português brasileiro</option><option value="/pt-pt">Português</option><option value="/ro">Română</option><option value="/ru">Русский</option><option value="/sk">Slovenčina</option><option value="/sl">Slovenščina</option><option value="/fi">Suomi</option><option value="/sv">Svenska</option><option value="/vi">Tiếng Việt</option><option value="/tr">Türkçe</option><option value="/uk">Українська</option><option value="/zh-hans">简体中文</option><option value="/zh-hant">繁體中文</option></select>
+      </div>
+    </form>
+  </div>
+    </div>
+
+  </div><!-- /.block -->
+<div id="block-cas-0" class="block block-cas last region-odd odd region-count-5 count-5">
+      <h2 class="title">User login</h2>
+  
+  <div class="content">
+    <form action="/en/cas?destination=node%2F12581" accept-charset="UTF-8" method="post" id="cas-login-block">
+<div><div class="form-item cas-login-redirection-message"></div><input name="cas.return_to" id="edit-cas.return-to" value="destination=node%2F12581" type="hidden">
+<input name="op" id="edit-submit-1" value="Log in" class="form-submit" type="submit">
+<input name="form_build_id" id="form-68ecc651a7fe616512fbe3b79d95a380" value="form-68ecc651a7fe616512fbe3b79d95a380" type="hidden">
+<input name="form_id" id="edit-cas-login-block" value="cas_login_block" type="hidden">
+
+</div></form>
+  </div>
+
+  </div><!-- /.block -->
+</div></div><!-- /.section, /.region -->
+
+    </div>
+    <div id="footer-push">&nbsp;</div>
+  </div>
+  
+  <div id="footer">
+    <div class="swap-underlines" id="footer-notice">  
+      <div class="footer-left-side">
+        <div class="column">
+          <p>About MuseScore</p>
+          <ul>
+            <li><a href="https://musescore.com/team">Team</a></li>
+            <li><a href="http://blog.musescore.com/" target="_blank">Blog</a></li>
+            <li><a href="https://musescore.com/upgrade">Pricing</a></li>
+            <li><a href="https://musescore.com/jobs">Jobs</a></li>
+            <li><a href="http://musescore.org/en/contact">Contact us</a></li>
+          </ul>
+        </div>
+        <div class="column">
+          <p>Community</p>
+          <ul>
+            <li><a href="https://musescore.com/community-guidelines">Community Guidelines</a></li>
+            <li><a href="https://musescore.com/contact">Report abuse</a></li>
+          </ul>
+        </div>
+        <div class="column">
+          <p>MuseScore</p>
+          <ul>
+            <li><a href="http://musescore.org/en/download">Download</a></li>
+            <li><a href="http://musescore.org/en/handbook">Handbook</a></li>            
+            <li><a href="http://musescore.org/en/forum">Forum</a></li>
+            <li><a href="http://musescore.org/en/musescore-tour-1">Tour</a></li>
+          </ul>
+        </div>
+        <div class="column">
+          <p>Apps and the API</p>
+          <ul>
+            <li><a href="https://musescore.com/ios">iPhone/iPad</a></li>
+            <li><a href="https://musescore.com/android">Android</a></li>
+            <li><a href="https://musescore.com/kindle">Kindle Fire</a></li>
+            <li><a href="https://musescore.com/apps/windows-phone">Windows Phone</a></li>
+            <li><a href="http://developers.musescore.com/">Developers</a></li>
+          </ul>
+        </div>
+        <div class="column social-links">
+          <ul class="no-underlines">
+            <li><a href="http://musescore.org/newsletter"><span class="social-icon"></span>Newsletter</a></li>
+            <li><a href="https://facebook.com/MuseScore" target="_blank" rel="nofollow"><span class="social-icon social-icon-facebook"></span>Facebook</a></li>
+            <li><a href="https://twitter.com/musescore" target="_blank" rel="nofollow"><span class="social-icon social-icon-twitter"></span>Twitter</a></li>
+            <li><a href="https://plus.google.com/+musescore" target="_blank" rel="nofollow"><span class="social-icon social-icon-googleplus"></span>Google+</a></li>
+            <li><a href="https://linkedin.com/company/musescore" target="_blank" rel="nofollow"><span class="social-icon social-icon-linkedin"></span>Linkedin</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-right-side">
+        <ul>
+          <li>© 2015 MuseScore BVBA</li>
+          <li><a href="https://musescore.com/legal/privacy">Privacy Policy</a></li>
+          <li><a href="https://musescore.com/legal/terms">Terms of Use</a></li>
+          <li><a href="https://musescore.com/legal/dmca">DMCA</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  
+  <script type="text/javascript" src="musescore_compile_instructions_files/js_4984c82abe7ea7a4d6ae2bb8f351dc82.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, {"googleCSE":{"language":"en"}});
+//--><!]]>
+</script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+var _gaq = _gaq || [];_gaq.push(["_setAccount", "UA-5141999-1"]);_gaq.push(['_setCustomVar', 1, "User roles", "anonymous user", 1]);_gaq.push(["_trackPageview"]);(function() {var ga = document.createElement("script");ga.type = "text/javascript";ga.async = true;ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(ga, s);})();
+//--><!]]>
+</script>
+
+
+
+</body></html>
