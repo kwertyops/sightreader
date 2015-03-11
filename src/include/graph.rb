@@ -183,6 +183,7 @@ def compare_gnuplot_from_intervals_w_dtw(filename, target, source, dtw_path)
       plot.xlabel "Time"
       plot.ylabel "Note"
 
+      # DTW lines
       dtw_path.each { |target_index, matches| 
         matches.each { |match_index|
           x_data = [target[target_index][0][0], source[match_index][0][0]]
@@ -194,6 +195,7 @@ def compare_gnuplot_from_intervals_w_dtw(filename, target, source, dtw_path)
         }
       }
 
+      # Target
       # Plot points
       x_data = Array.new
       y_data = Array.new
@@ -216,6 +218,7 @@ def compare_gnuplot_from_intervals_w_dtw(filename, target, source, dtw_path)
         end
       }
 
+      # Source
       # Plot points
       x_data = Array.new
       y_data = Array.new

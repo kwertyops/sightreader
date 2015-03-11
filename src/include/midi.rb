@@ -43,7 +43,7 @@ def intervals_from_track(track)
         notes_on[event.note_to_s] = event.time_from_start
       
       # Remove note from bucket and push interval
-      else
+      elsif(notes_on.has_key?(event.note_to_s))
         intervals.push(
           [ [notes_on[event.note_to_s], event.note_to_s.to_i],
             [event.time_from_start,     event.note_to_s.to_i] ])
