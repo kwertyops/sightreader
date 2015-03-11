@@ -59,6 +59,15 @@ source_seq.each_with_index { |track, i|
 
 source_track = source_seq.tracks[longest_track_source]
 
+# DELETE LATER
+(0..source_track.events.length-1).each do |i|
+  if(source_track.events[i].is_a? NoteEvent)
+    source_track.events[i].delta_time -= 400
+    source_track.recalc_times
+    break;
+  end
+end
+
 # Make intervals from each note on/off
 target_intervals, target_max_t = intervals_from_track(target_track)
 source_intervals, source_max_t = intervals_from_track(source_track)

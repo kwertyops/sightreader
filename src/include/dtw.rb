@@ -4,6 +4,8 @@
 def get_dtw_path(target, source)
   matrix = fill_dtw_matrix(target, source)
 
+  #print_dtw_matrix(matrix, target, source)
+
   # Find path of least cost
   path = Hash.new
   (0..target.length-1).each do |i|
@@ -68,7 +70,7 @@ def fill_dtw_matrix(target, source)
         min_prev = [left, down, downleft].min
       end
 
-      matrix[[i, j]] = distance + min_prev
+      matrix[[i, j]] = distance + (distance * distance) * (target_y-source_y) * (target_y-source_y) + min_prev
     end
   end
 
