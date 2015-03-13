@@ -61,6 +61,6 @@ seq.tracks[longest_track].each { |event|
   end
 }
 
-gnuplot_from_intervals(ARGV[0]+"_gnuplot", intervals)
+#gnuplot_from_intervals(ARGV[0]+"_gnuplot", intervals)
 #graph_from_intervals(ARGV[0]+"_perf.jpg", intervals, last_event_time)
-#pdf_from_midi(ARGV[0])
+pdf_from_midi(ARGV[0])
