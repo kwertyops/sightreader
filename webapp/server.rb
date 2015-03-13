@@ -9,7 +9,7 @@ require './analyze_midi'
 set :sessions => true
 
 get '/record' do
-  session['target'] = 'invent1_chunk'
+  session['target'] = 'invent1_chunk_new'
   send_file 'public_html/record_metronome.html'
 end
 
@@ -23,6 +23,10 @@ end
 
 get '/uploads/:filename' do |filename|
   send_file "uploads/" + filename
+end
+
+get '/targets/:filename' do |filename|
+  send_file "targets/" + filename
 end
 
 # Handle POST-request (Receive and save the uploaded file)
