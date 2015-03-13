@@ -9,7 +9,7 @@ require './analyze_midi'
 set :sessions => true
 
 get '/record' do
-  session['target'] = 'invent1_chunk_new'
+  session['target'] = 'invent1_chunk_short'
   send_file 'public_html/record_metronome.html'
 end
 
