@@ -30,14 +30,16 @@ def compare_midi(target, source)
 
   # Find the longest track in target
   longest_track_target = 0
+  first_noteon = nil
   target_seq.each_with_index { |track, i|
     longest_track_target = i if track.events.length > longest_track_target
     puts "track target " + track.name + ": " + track.events.length.to_s
 
     track.events.each { |event|
-      #if event.is_a? MetaEvent
-        #puts event.to_s #if !event.is_a? ProgramChange
-      #end
+      # Grab start time of first note for re-alignment
+      if(event.is_a?(NoteOnEvent) && first_noteon.nil?)
+        first_noteon = event.time_from_start
+      end
     }
   }
 
@@ -50,10 +52,13 @@ def compare_midi(target, source)
     puts "track source " + track.name + ": " + track.events.length.to_s
 
     track.events.each { |event|
-      #if event.is_a? MetaEvent
-        #puts event.to_s #if !event.is_a? ProgramChange
-      #end
+      # Readjust the start time of the track to fit with the target
+      if(event.is_a?(NoteOnEvent) && !first_noteon.nil?)
+        event.delta_time = event.delta_time - (event.time_from_start - first_noteon)
+        first_noteon = nil
+      end
     }
+    track.recalc_times
   }
 
   source_track = source_seq.tracks[longest_track_source]

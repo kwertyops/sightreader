@@ -24,7 +24,7 @@ def gnuplot_from_intervals(filename, intervals)
   Gnuplot.open do |gp|
     Gnuplot::Plot.new( gp ) do |plot|
 
-      plot.title  "Intervals"
+      plot.title  "Target vs Source"
       plot.xlabel "Time"
       plot.ylabel "Note"
 
@@ -88,7 +88,7 @@ def compare_gnuplot_from_intervals(filename, target, source)
   Gnuplot.open do |gp|
     Gnuplot::Plot.new( gp ) do |plot|
 
-      plot.title  "Intervals"
+      plot.title  "Target vs Source w/ DTW"
       plot.xlabel "Time"
       plot.ylabel "Note"
 
