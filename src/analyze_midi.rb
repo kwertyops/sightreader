@@ -23,11 +23,20 @@ seq.each_with_index { |track, i|
   longest_track = i if track.events.length > longest_track
   puts "track " + track.name + ": " + track.events.length.to_s
 
+
   track.events.each { |event|
+    if !event.is_a? NoteEvent
+      #puts event.to_s
+      if event.is_a? ProgramChange
+        puts event.to_s
+      end
+    end
     #if event.is_a? MetaEvent
       #puts event.to_s #if !event.is_a? ProgramChange
     #end
   }
+
+  track.recalc_times
 }
 
 # Make intervals from each note on/off
@@ -63,4 +72,4 @@ seq.tracks[longest_track].each { |event|
 
 #gnuplot_from_intervals(ARGV[0]+"_gnuplot", intervals)
 #graph_from_intervals(ARGV[0]+"_perf.jpg", intervals, last_event_time)
-pdf_from_midi(ARGV[0])
+#png_from_midi(ARGV[0])

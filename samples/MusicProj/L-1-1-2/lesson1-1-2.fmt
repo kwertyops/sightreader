@@ -1,0 +1,35 @@
+% Time Signature - Numerator and Denominator
+4 4
+% Meter Print Option
+2
+% Key
+0
+% Maximum pitch multiplicity
+2 % Single notes
+% Multiplicity probability distribution (out of 100)
+70 30 0 0 0 0 % Only single notes are possible
+% Number of possible note durations
+1
+% A list of possible note durations
+64 % Whole notes
+% Probability of each note duration (out of 100)
+100 % Only whole notes are allowed
+% Probability of accepting syncopated events
+0 % No syncopation
+% A list of available pitches, in frets, strings, notes, or scales
+F 1 0 % A single fret - open strings (fret 0) in this case
+% Are rests allowed? 0 - no, other values - yes
+0
+% Open strings configuration
+% Six string-fret pairs
+4 3
+9 3
+2 4
+7 4
+11 4
+4 5
+% Maximum and minimum # of measures to generate for a piece
+12 20
+% Which note representations to use, 1 - the most standard,
+% 3 - lots of double sharps and flats
+1
