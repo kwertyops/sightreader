@@ -110,7 +110,7 @@ function posttoserver(base64){
   $.ajax({
     type: "POST",
     crossDomain: true,
-    url: "http://54.245.17.125:4567/upload/midi",
+    url: "http://54.70.179.50:4567/upload/midi",
     data: {midi: decodeURI(base64)},
     contentType: "application/json",
     success: function(response){
