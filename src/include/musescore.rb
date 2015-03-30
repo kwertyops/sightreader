@@ -2,5 +2,5 @@
 # No return
 ###
 def png_from_midi(midi_file_path)
-  system("/Users/andrewthomas/code/sightreader/MuseScore/applebuild/mscore.app/Contents/MacOS/mscore #{midi_file_path}.mid -o #{midi_file_path}.png")
+  system("/Users/andrewthomas/code/sightreader/MuseScore/applebuild/mscore.app/Contents/MacOS/mscore -o #{midi_file_path}.png -M /Users/andrewthomas/code/sightreader/import_options.xml #{midi_file_path}.mid")
 end

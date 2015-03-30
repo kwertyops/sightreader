@@ -5,7 +5,7 @@ require_all "include"
 
 include MIDI
 
-def analyze(filename)
+def analyze_and_remove_program_changes(filename)
   # create a new sequence for the file write
   # Create a new, empty sequence.
   seq = MIDI::Sequence.new()
@@ -95,7 +95,10 @@ Dir.foreach('../webapp/targets') do |item|
   if File.extname('../webapp/targets/' + item) == ".mid"
     puts item
     puts "Working"
-    analyze('../webapp/targets/' + item)
+    location = '../webapp/targets/' + item
+    location = location.chomp(File.extname(location))
+    png_from_midi(location)
+    #analyze('../webapp/targets/' + item)
   end
   # do work on real items
 end
