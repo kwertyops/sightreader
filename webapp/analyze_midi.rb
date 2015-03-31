@@ -76,6 +76,6 @@ def compare_midi(target, source)
   compare_gnuplot_from_intervals_w_dtw(source+"_comp", target_intervals, source_intervals, dtw_path)
 
   # Just for fun make sheet music from the performance
-  png_from_midi(source)
+  # png_from_midi(source)
 
 end

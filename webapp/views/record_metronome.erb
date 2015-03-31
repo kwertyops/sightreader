@@ -55,8 +55,8 @@ MIDI Out: <select id='selectout' onchange='changeout();'></select>
 <span id='dwnld'></span>
 </p>
 
-<div id='score-display'><img style="max-width: 1024px;" src="targets/invent1_chunk_short-1.png"></div>
-<div><img id="performance-display" style="max-width: 1024px;" src=""></div>
+<div id='score-display'><img style="max-width: 1024px;" src="<%= session['target'] + "-1.png" %>"></div>
+<!-- <div><img id="performance-display" style="max-width: 1024px;" src=""></div> -->
 
 <script src="js/record_metronome.js"></script>
 

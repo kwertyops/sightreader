@@ -3,6 +3,7 @@ require 'sinatra'
 require "sinatra/cookies"
 require 'base64'
 require 'uri'
+require 'find'
 require './analyze_midi'
 
 # set :port, 80
@@ -10,9 +11,22 @@ require './analyze_midi'
 set :sessions => true
 
 get '/record' do
-  session['target'] = 'invent1_chunk_short'
-  session['session_id'] = SecureRandom.hex(10)
-  send_file 'public_html/record_metronome.html'
+  if(!session.has_key?('target_num'))
+    session['target_num'] = 0
+  end
+  target_files = []
+  Find.find('targets') do |path|
+    target_files << path if path =~ /.*\.mid$/
+  end
+  session['target_num'] = (session['target_num'] + 1) % target_files.length
+  session['target'] = target_files[session['target_num']]
+  session['target'].slice!(".mid")
+  session['user_id'] = SecureRandom.hex(10)
+  erb :record_metronome
+end
+
+get '/logout' do
+  session.clear
 end
 
 get '/js/:filename' do |filename|
@@ -32,7 +46,7 @@ get '/targets/:filename' do |filename|
 end
 
 get '/performance' do
-  send_file "upload/" + session['session_id'] + "-1.png"
+  session['user_id']
 end
 
 # Handle POST-request (Receive and save the uploaded file)
@@ -41,7 +55,7 @@ post "/upload/midi" do
   decode_base64_content = Base64.decode64(base64)
 
   # Generate filename
-  random = session['session_id']
+  random = session['user_id']
 
   # Write file
   filepath = "uploads/" + random + ".mid"
@@ -50,7 +64,7 @@ post "/upload/midi" do
   end
 
   # Analyze midi
-  compare_midi("targets/" + session['target'], "uploads/" + random)
+  compare_midi(session['target'], "uploads/" + random)
 
   # Tell the client what the id of the files are
   cookies['upload_id'] = random

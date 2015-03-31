@@ -117,15 +117,13 @@ function posttoserver(base64){
         //alert("It worked!");
         $("#score-display").html('<img style="max-width:1000px;" src="data:image/png;base64,' + response + '" />');
 
-        $.ajax({
-          type: "GET",
-          url: '/performance',
-          datatype:"image/jpg",
-          success: function (data) {
-            var temp = $("score-display").html();
-            $("#score-display").html(temp + '<img style="max-width:1000px;" src="data:image/png;base64,' + data + '" />');
-          }
-       });
+//        $.ajax({
+//          type: "GET",
+//          url: '/performance',
+//          success: function (data) {
+//            $("#performance-display").attr('src','uploads/' + data  + '-1.png');
+//          }
+//       });
     }
   });
 }
