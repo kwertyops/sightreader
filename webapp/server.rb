@@ -1,14 +1,13 @@
 require 'rubygems'
 require 'sinatra'
+require "sinatra/cookies"
 require 'base64'
 require 'uri'
 require './analyze_midi'
 
 # set :port, 80
 
-# set :sessions => true
-
-use Rack::Session::Cookie
+set :sessions => true
 
 get '/record' do
   session['target'] = 'invent1_chunk_short'
@@ -49,7 +48,8 @@ post "/upload/midi" do
   compare_midi("targets/" + session['target'], "uploads/" + random)
 
   # Tell the client what the id of the files are
-  session['upload_id'] = random
+  cookies['upload_id'] = random
+  response.set_cookie 'upload_id', random
 
   # Return image
   encoded_image = Base64.encode64(File.open("uploads/" + random + "_comp.gif", "rb").read)
