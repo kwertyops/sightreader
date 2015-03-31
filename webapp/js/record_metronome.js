@@ -106,20 +106,6 @@ function changetempo(){
  metronome_interval=60000./select_tempo.options[select_tempo.selectedIndex].value;
 }
 
-function getCookie(w){
-  cName = "";
-  pCOOKIES = new Array();
-  pCOOKIES = document.cookie.split('; ');
-  for(bb = 0; bb < pCOOKIES.length; bb++){
-    NmeVal  = new Array();
-    NmeVal  = pCOOKIES[bb].split('=');
-    if(NmeVal[0] == w){
-      cName = unescape(NmeVal[1]);
-    }
-  }
-  return cName;
-}
-
 function posttoserver(base64){
   $.ajax({
     type: "POST",
@@ -130,7 +116,7 @@ function posttoserver(base64){
     success: function(response){
         //alert("It worked!");
         $("#score-display").html('<img style="max-width:1000px;" src="data:image/png;base64,' + response + '" />');
-        console.log(getCookie('upload_id'));
+        console.log(document.cookie);
     }
   });
 }
