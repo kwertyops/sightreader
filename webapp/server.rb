@@ -6,7 +6,9 @@ require './analyze_midi'
 
 # set :port, 80
 
-set :sessions => true
+# set :sessions => true
+
+use Rack::Session::Cookie
 
 get '/record' do
   session['target'] = 'invent1_chunk_short'
