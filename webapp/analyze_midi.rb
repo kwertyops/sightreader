@@ -5,6 +5,10 @@ require_all "../src/include"
 
 include MIDI
 
+def png_from_midi(midi_file_path)
+  system("mscore -o #{midi_file_path}.png -M ../import_options.xml #{midi_file_path}.mid")
+end
+
 def compare_midi(target, source)
 
   target_seq = MIDI::Sequence.new()
@@ -70,5 +74,8 @@ def compare_midi(target, source)
   # Plot the results
   dtw_path = get_dtw_path(target_intervals, source_intervals)
   compare_gnuplot_from_intervals_w_dtw(source+"_comp", target_intervals, source_intervals, dtw_path)
+
+  # Just for fun make sheet music from the performance
+  png_from_midi(source)
 
 end

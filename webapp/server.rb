@@ -11,6 +11,7 @@ set :sessions => true
 
 get '/record' do
   session['target'] = 'invent1_chunk_short'
+  session['session_id'] = SecureRandom.hex(10)
   send_file 'public_html/record_metronome.html'
 end
 
@@ -30,13 +31,17 @@ get '/targets/:filename' do |filename|
   send_file "targets/" + filename
 end
 
+get '/performance' do
+  send_file "upload/" + session['session_id'] + "-1.png"
+end
+
 # Handle POST-request (Receive and save the uploaded file)
 post "/upload/midi" do 
   base64 = URI.unescape(request.body.read.split('=', 2)[1])
   decode_base64_content = Base64.decode64(base64)
 
   # Generate filename
-  random = SecureRandom.hex(10)
+  random = session['session_id']
 
   # Write file
   filepath = "uploads/" + random + ".mid"
