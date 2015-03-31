@@ -116,7 +116,16 @@ function posttoserver(base64){
     success: function(response){
         //alert("It worked!");
         $("#score-display").html('<img style="max-width:1000px;" src="data:image/png;base64,' + response + '" />');
-        console.log(document.cookie);
+
+        $.ajax({
+          type: "GET",
+          url: '/performance',
+          datatype:"image/jpg",
+          success: function (data) {
+            var temp = $("score-display").html();
+            $("#score-display").html(temp + '<img style="max-width:1000px;" src="data:image/png;base64,' + data + '" />');
+          }
+       });
     }
   });
 }
