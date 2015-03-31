@@ -46,6 +46,9 @@ post "/upload/midi" do
   # Analyze midi
   compare_midi("targets/" + session['target'], "uploads/" + random)
 
+  # Tell the client what the id of the files are
+  session['upload_id'] = random
+
   # Return image
   encoded_image = Base64.encode64(File.open("uploads/" + random + "_comp.gif", "rb").read)
   return encoded_image
