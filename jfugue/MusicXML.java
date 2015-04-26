@@ -19,12 +19,8 @@ public class MusicXML {
 
         try
         {
-            Pattern pattern = new ChordProgression("I IV V")
-                .distribute("7%6")
-                .allChordsAs("$0 $0 $0 $0 $1 $1 $0 $0 $2 $1 $0 $0")
-                .eachChordAs("$0ia100 $1ia80 $2ia80 $3ia80 $4ia100 $3ia80 $2ia80 $1ia80")
-                .getPattern()
-                .setTempo(100);            
+            System.out.println(args[0] + " " + args[1] + " " + args[2]);
+            Pattern pattern = new Pattern(args[0]);           
 
             try {
                 MidiFileManager m = new MidiFileManager();

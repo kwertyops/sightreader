@@ -1,42 +1,45 @@
 require 'rubygems'
 require 'sinatra'
-require "sinatra/cookies"
 require 'base64'
 require 'uri'
 require 'find'
-require './analyze_midi'
+require_relative './analyze_midi'
 
 # set :port, 80
 
 set :sessions => true
 
-# The main page
 get '/record' do
 
-  # This is for scrolling through a folder full of midi lessons
-  if(!session.has_key?('target_num'))
-    session['target_num'] = 0
+  # Look at all the lesson plan files
+  lesson_plan_files = []
+  Find.find('lesson_plans') do |path|
+    lesson_plan_files << path if path =~ /.*\.rb$/
   end
-  
-  target_files = []
-  Find.find('targets') do |path|
-    target_files << path if path =~ /.*\.mid$/
+  lesson_plan_files.each { |path| path.slice!(".rb") }
+
+  # Is there currently a lesson plan chosen?
+  if(!session.has_key?('lesson_plan'))
+    session['lesson_plan'] = lesson_plan_files[0]
   end
-  session['target_num'] = (session['target_num'] + 1) % target_files.length
-  session['target'] = target_files[session['target_num']]
-  session['target'].slice!(".mid")
+
+  # Load the functions from chosen lesson plan
+  require_relative './'+session['lesson_plan']
   
   # Disposable user id generated each time the recording page loads
   # This will be the name of the performance midi file
   session['user_id'] = SecureRandom.hex(10)
   
+  # Make target midi and png
+  generate_target(session['user_id'])
+
   # Load the html page
   erb :record_metronome
 end
 
-# Handle POST-request (Receive and save the uploaded file)
 post "/upload/midi" do 
   
+  # Decode the base64 string
   base64 = URI.unescape(request.body.read.split('=', 2)[1])
   decode_base64_content = Base64.decode64(base64)
 
@@ -51,12 +54,6 @@ post "/upload/midi" do
 
   # Analyze midi
   compare_midi(session['target'], "uploads/" + filename)
-
-  # Tell the client what the id of the files are
-  # IF YOU FIND THIS AND EVERYTHING IS WORKING, THEN DELETE IT ALL
-  #
-  # cookies['upload_id'] = filename
-  # response.set_cookie 'upload_id', filename
 
   # Return image
   encoded_image = Base64.encode64(File.open("uploads/" + filename + "_comp.gif", "rb").read)
