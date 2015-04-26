@@ -5,7 +5,9 @@ def analyze_performance()
 end
 
 def generate_target(user_id)
-  
+  lilypond_bin = ""
+  # lilypond_bin = "../lilypond/bin/"
+
   notes = [ 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B' ]  # For calculating octaves
   keys = [  {root: 'C', tonality: 'major', accidentals: 0},
             {root: 'G', tonality: 'major', accidentals: 1},
@@ -83,7 +85,7 @@ def generate_target(user_id)
   
   # Generate lilypond from MIDI
   midi2ly_key = key[:accidentals].to_s + ":" + (key[:tonality] == 'minor' ? "1" : "0")
-  system("../lilypond/bin/midi2ly -k #{midi2ly_key} -o targets/#{user_id}.ly targets/#{user_id}.mid")
+  system("#{lilypond_bin}midi2ly -k #{midi2ly_key} -o targets/#{user_id}.ly targets/#{user_id}.mid")
   
   # Modify the lilypond file before export
   File.open('targets/'+user_id+'.ly2', 'w') do |output| # 'w' for a new file, 'a' append to existing
@@ -119,6 +121,6 @@ def generate_target(user_id)
   end
   
   # Export lilypond to png
-  system("../lilypond/bin/lilypond --png -o targets/#{user_id} targets/#{user_id}.ly2")
+  system("#{lilypond_bin}lilypond --png -o targets/#{user_id} targets/#{user_id}.ly2")
 
 end
