@@ -1,1 +1,0 @@
-<measureSpacing>4</measureSpacing>
