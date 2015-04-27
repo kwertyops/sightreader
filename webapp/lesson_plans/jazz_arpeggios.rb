@@ -9,53 +9,43 @@ def generate_target(user_id)
   notes = [ 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B' ]  # For calculating octaves
   keys = [  {root: 'C', tonality: 'major', accidentals: 0},
             {root: 'G', tonality: 'major', accidentals: 1},
-            {root: 'A', tonality: 'major', accidentals: 3},
-            {root: 'E', tonality: 'major', accidentals: 4}, 
             {root: 'D', tonality: 'major', accidentals: 2},
             {root: 'F', tonality: 'major', accidentals: -1},
             {root: 'Bb', tonality: 'major', accidentals: -2},
+            {root: 'A', tonality: 'major', accidentals: 3},
+            {root: 'E', tonality: 'major', accidentals: 4},
             {root: 'A', tonality: 'minor', accidentals: 0},
             {root: 'G', tonality: 'minor', accidentals: -2},
             {root: 'E', tonality: 'minor', accidentals: 1},
             {root: 'D', tonality: 'minor', accidentals: -1} ]
-  
+  if(session.has_key?('lesson_params'))
+    params = session['lesson_params']
+  else
+    params = Hash.new
+    params['possible_keys'] = 11
+    params['measures'] = 4
+    params['prob_inversion'] = 0.25
+    params['prob_octave'] = 0.5
+    params['prob_shuffle'] = 0.5
+    params['notes_per_measure'] = 4
+    session['lesson_params'] = params
+  end
+
   # Choose a random key signature from the list
-  key = keys.sample
+  key = keys[rand(0 .. params['possible_keys'])]
 
   # Generate all 7th chords for this key
   root = Note.new(key[:root])
   scale = root.send(key[:tonality]+"_scale")
-  note_values = scale.all_harmonized_chords(key[:tonality].sub("or","")+"7_chord").map{|c| c.note_values}
-  note_names = scale.all_harmonized_chords(key[:tonality].sub("or","")+"7_chord").map{|c| c.note_names}
-  chord_valid_names = scale.all_harmonized_chords(key[:tonality].sub("or","")+"7_chord").map{|c| Scale.new(c.root_note, c.intervals).valid_chord_names_for_degree(1)}
+  chords = scale.all_harmonized_chords(key[:tonality].sub("or","")+"7_chord").map{|c| {note_values: c.note_values, note_names: c.note_names, chord_names: Scale.new(c.root_note, c.intervals).valid_chord_names_for_degree(1)}
+  # note_names = scale.all_harmonized_chords(key[:tonality].sub("or","")+"7_chord").map{|c| c.note_names}
+  # chord_valid_names = scale.all_harmonized_chords(key[:tonality].sub("or","")+"7_chord").map{|c| Scale.new(c.root_note, c.intervals).valid_chord_names_for_degree(1)}
 
-  jfugue_string = ""
-
-  # Get notes for each chord
-  note_values.each_with_index do |chord, c|
-    chord.each_with_index do |note, n|
-
-      # Correct note names for key sig
-      # This is for writing chord names later
-      if(key[:accidentals] < 0 && note_names[c][n].include?("#"))
-        note_names[c][n] = notes[(note + 1) % 12] + "b"
-      end
-
-      octave = (note / 12).to_s
-      
-      # Build jfugue string
-      jfugue_string += note_names[c][n]
-      jfugue_string += octave
-      jfugue_string += " "
-    end
-  end
-
-  # Get name for each chord
-  chord_names = Array.new
-  chord_valid_names.each do |chord|
+  # Get lilypond name for each chord
+  chords.each do |chord|
 
     # Remove chord names we don't care about
-    chord.delete_if{|i| i.to_s.include?("major") ||
+    chord['chord_names'].delete_if{|i| i.to_s.include?("major") ||
                         i.to_s.include?("minor") ||
                         i.to_s.include?("fifth") ||
                         i.to_s.include?("seventh") ||
@@ -63,17 +53,40 @@ def generate_target(user_id)
                         i.to_s.include?("min7_flat5") } 
 
     # sample random name from among remaining
-    name = chord.sample.to_s
+    chord['chord_name'] = chord['chord_names'].sample.to_s
 
     # change name to lilypond format
-    name.sub!("dim", "dim7")
-    name.sub!("min7_b5", "m7.5-")
-    name.sub!("min7", "m7")
-    name.sub!("dom7","7")
-    name.sub!("_chord", "")
+    chord['chord_name'].sub!("dim", "dim7")
+    chord['chord_name'].sub!("min7_b5", "m7.5-")
+    chord['chord_name'].sub!("min7", "m7")
+    chord['chord_name'].sub!("dom7","7")
+    chord['chord_name'].sub!("_chord", "")
     
-    chord_names << name
   end
+
+  # Get jfugue note names for each note
+  chords.each_with_index do |chord, c|
+    chord['note_octaves'] = Array.new
+    chord['note_names'].each_with_index do |note_name, n|
+
+      # Correct note names for key sig
+      if(key[:accidentals] < 0 && note_name.include?("#"))
+        note_name = notes[(chord['note_values'][n] + 1) % 12] + "b"
+      end
+
+      chord['note_octaves'][n] = (chord['note_values'][n] / 12).to_s
+
+    end
+  end
+
+  # Build jfugue string
+  jfugue_string = ""
+  chords.each do |chord|
+    chord['note_names'].each_with_index do |note_name, n|
+      jfugue_string += note_name
+      jfugue_string += chord['note_octaves'][n]
+      jfugue_string += " "
+  end  
 
   print "\nStaccato string: " + jfugue_string + "\n"
 
