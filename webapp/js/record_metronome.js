@@ -17,6 +17,7 @@ var metronome_timeout;
 var timesignature=4;
 var metronome_count;
 var start;
+var midi_timeout;
 
 function onPlayerEvent(e){
  if(e.midi instanceof JZZ.Midi){
@@ -33,9 +34,9 @@ function rec(){
  recording = true;
  Jazz.ClearMidiIn();
  start = Jazz.Time();
- metronome_playing=1;
- metronome_count=0; 
- tick();
+ //metronome_playing=1;
+ //metronome_count=0; 
+ //tick();
  update();
 }
 function play(){
@@ -71,6 +72,10 @@ function stop(){
   dwnld.innerHTML='MIDI file: <a href=' + uri + '>DOWNLOAD</a> <embed src=' + uri + ' autostart=false>';
   posttoserver(JZZ.MidiFile.toBase64(mf.dump()));
  }
+ else
+ {
+  location.reload();
+ }
 }
 function changein(){
  if(!Jazz || !Jazz.isJazz) return;
@@ -105,6 +110,9 @@ function changetimesignature(){
 function changetempo(){
  metronome_interval=60000./select_tempo.options[select_tempo.selectedIndex].value;
 }
+function reload(){
+  location.reload();
+}
 
 function posttoserver(base64){
   $.ajax({
@@ -116,7 +124,7 @@ function posttoserver(base64){
     success: function(response){
         //alert("It worked!");
         $("#score-display").html('<img style="max-width:1000px;" src="data:image/png;base64,' + response + '" />');
-
+        // location.reload();
 //        $.ajax({
 //          type: "GET",
 //          url: '/performance',
@@ -152,3 +160,9 @@ try{
  update();
 }
 catch(err){}
+$(document).ready(function() {
+  rec();
+});
+$(document).bind('keydown', function (evt){
+    stop();
+  });

@@ -26,7 +26,7 @@ seq.each_with_index { |track, i|
 
   track.events.each { |event|
     if !event.is_a? NoteEvent
-      #puts event.to_s
+      puts event.to_s
       if event.is_a? ProgramChange
         puts event.to_s
       end
@@ -67,6 +67,7 @@ seq.tracks[longest_track].each { |event|
     if !event.is_a? ProgramChange
       puts event.to_s
     end
+    puts event.to_s
   end
 }
 

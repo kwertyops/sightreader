@@ -53,7 +53,8 @@ post "/upload/midi" do
   end
 
   # Analyze midi
-  compare_midi(session['target'], "uploads/" + filename)
+  analyze_performance(session['user_id'])
+  # compare_midi(session['target'], "uploads/" + filename)
 
   # Return image
   encoded_image = Base64.encode64(File.open("uploads/" + filename + "_comp.gif", "rb").read)

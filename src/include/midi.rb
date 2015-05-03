@@ -27,12 +27,11 @@ def setup_seq(seq)
 end
 
 ###
-# Returns [intervals, last_event_time]
+# Returns intervals
 ###
 def intervals_from_track(track)
   intervals = Array.new
   notes_on = Hash.new # bucket containing currently on notes, in order to track on/off pairs
-  last_event_time = 0
 
   track.each { |event|
     if(event.is_a? NoteEvent)
@@ -50,9 +49,6 @@ def intervals_from_track(track)
         notes_on.delete(event.note_to_s)
       end
 
-      # Keep track of the last event time
-      last_event_time = event.time_from_start if event.time_from_start > last_event_time
-      
     # If this is not a note event, print it
     elsif event.is_a? MetaEvent
       if !event.is_a? ProgramChange
@@ -61,5 +57,47 @@ def intervals_from_track(track)
     end
   }
 
-  return intervals, last_event_time
+  return intervals
+end
+
+###
+# Returns ratio of track length
+###
+def get_length_ratio(source, target)
+  target_last_event = 0
+  source_last_event = 0
+
+  target_first_event = 0
+  source_first_event = 0
+
+  saw_first = false
+  target.each do |event|
+    if(event.is_a?(NoteOnEvent) && event.time_from_start > target_last_event)
+      target_last_event = event.time_from_start
+    end
+    if(event.is_a?(NoteOnEvent) && saw_first == false)
+      target_first_event = event.time_from_start
+      saw_first = true
+    end
+  end
+
+  saw_first = false
+  source.events.each do |event|
+    if(event.is_a?(NoteOnEvent) && event.time_from_start > source_last_event)
+      source_last_event = event.time_from_start
+    end
+    if(event.is_a?(NoteOnEvent) && saw_first == false)
+      source_first_event = event.time_from_start
+      saw_first = true
+    end
+  end
+
+  if(target_last_event == target_first_event || source_last_event == source_first_event)
+    return 1.0
+  end
+
+  delta_ratio = (target_last_event.to_f - target_first_event.to_f) / (source_last_event.to_f - source_first_event.to_f)
+
+  return delta_ratio
+
 end
