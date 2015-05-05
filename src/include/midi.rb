@@ -16,7 +16,7 @@ end
 ###
 def find_longest_track(seq)
   ret = 0
-  target_seq.each_with_index { |track, i|
+  seq.each_with_index { |track, i|
     ret = i if track.events.length > ret
     puts "track target " + track.name + ": " + track.events.length.to_s
   }
