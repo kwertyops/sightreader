@@ -29,7 +29,9 @@ get '/record' do
   
   # Disposable user id generated each time the recording page loads
   # This will be the name of the performance midi file
-  session['user_id'] = SecureRandom.hex(10)
+  if(!session.has_key?('user_id'))
+    session['user_id'] = SecureRandom.hex(10)
+  end
   
   # Make target midi and png
   generate_target(session['user_id'])

@@ -17,7 +17,8 @@ var metronome_timeout;
 var timesignature=4;
 var metronome_count;
 var start;
-var midi_timeout;
+var midi_timeout = null;
+var notes_array = [];
 
 function onPlayerEvent(e){
  if(e.midi instanceof JZZ.Midi){
@@ -28,6 +29,17 @@ function onPlayerEvent(e){
   playing = false;
   update();
  }
+}
+function midiProc(t,a,b,c){
+  if(recording)
+  {
+      notes_array.push([Jazz.Time(), a, b, c]);
+  }
+  if(midi_timeout != null)
+  {
+    clearTimeout(midi_timeout);
+  }
+  midi_timeout = setTimeout(stop, 2000);
 }
 function rec(){
  player = undefined;
@@ -55,7 +67,8 @@ function stop(){
   var mf = new JZZ.MidiFile(0,100);
   var tr = new JZZ.MidiFile.MTrk; mf.push(tr);
   var a;
-  while(a=Jazz.QueryMidiIn()){
+  for(var i = 0; i < notes_array.length; i++){
+   a = notes_array[i];
    if(!a.length || a[1]==0xf8 || a[1]==0xfe || a[1]==0xff) continue;
    var t=(a[0]-start)/ms_per_tick; // convert ms to ticks
    a.shift();
@@ -135,7 +148,7 @@ function posttoserver(base64){
     success: function(response){
         //alert("It worked!");
         $("#score-display").html('<img style="max-width:1000px;" src="data:image/png;base64,' + response + '" />');
-        // location.reload();
+        location.reload();
     }
   });
 }
@@ -158,14 +171,14 @@ try{
   selIn[i]=new Option(list[i],list[i],0,0);
  }
  for(var i in list){
-  midiIn=Jazz.MidiInOpen(i);
+  midiIn=Jazz.MidiInOpen(i, midiProc);
   if(midiIn){ selIn[i].selected=1; break;}
  }
  update();
 }
 catch(err){}
 $(document).ready(function() {
-  // rec();
+  rec();
 });
 $(document).bind('keydown', function (evt){
   stop();
