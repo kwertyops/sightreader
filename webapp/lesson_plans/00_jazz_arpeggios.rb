@@ -23,6 +23,8 @@ def generate_target(user_id)
     params['chord_names'] = 0.0
     session['lesson_params'] = params
     print "\nCreating new session params"
+
+    session['lesson_level'] = 1
   end
 
   notes = [ 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B' ]  # For calculating octaves
@@ -312,5 +314,10 @@ def analyze_performance(user_id)
   # Normal params adjusted by step size
   params[param_to_update] = params[param_to_update] + options[param_to_update][:step] * step_modifier
   session['lesson_params'] = params
+
+  session['lesson_level'] += step_modifier
+  if(session['lesson_level'] == 0)
+    session['lesson_level'] = 1
+  end
 
 end

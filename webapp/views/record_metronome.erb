@@ -62,7 +62,11 @@
   <button id='stop' onmousedown='stop();' disabled>Stop</button>
   <span id='dwnld'></span>
 </p>
-
+<% if(session.has_key?('lesson_level')) %>
+<p>
+  Level: <%= session['lesson_level'] %>
+</p>
+<% end %>
 <div id='score-display'><img style="max-width: 1024px;" src="targets/<%= session['user_id']%>.png" %>"></div>
 <!-- <div><img id="performance-display" style="max-width: 1024px;" src=""></div> -->
 
