@@ -24,7 +24,7 @@ get '/record' do
   end
 
   # Load the chosen lesson plan
-  require_relative './'+session['lesson_plan']
+  load session['lesson_plan']+".rb"
   print "\nrequiring" + session['lesson_plan'] + "\n"
   
   # Disposable user id generated each time the recording page loads
