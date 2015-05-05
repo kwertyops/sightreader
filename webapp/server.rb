@@ -68,6 +68,8 @@ get '/lesson/:index' do |index|
     lesson_plan_files << path if path =~ /.*\.rb$/
   end
   lesson_plan_files.each { |path| path.slice!(".rb") }
+
+  session.clear
   session['lesson_plan'] = lesson_plan_files[index.to_i]
 end
 

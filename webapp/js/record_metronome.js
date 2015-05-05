@@ -34,9 +34,9 @@ function rec(){
  recording = true;
  Jazz.ClearMidiIn();
  start = Jazz.Time();
- //metronome_playing=1;
- //metronome_count=0; 
- //tick();
+ metronome_playing=1;
+ metronome_count=0; 
+ tick();
  update();
 }
 function play(){
@@ -165,8 +165,8 @@ try{
 }
 catch(err){}
 $(document).ready(function() {
-  rec();
+  // rec();
 });
 $(document).bind('keydown', function (evt){
-    stop();
-  });
+  stop();
+});
