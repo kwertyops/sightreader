@@ -232,7 +232,7 @@ def analyze_performance(user_id)
   read_midi_file_into_sequence('uploads/'+user_id+'.mid', source_seq)
 
   # Find the longest track in target
-  target_track = target_seq.tracks[find_longest_track(target_track)]
+  target_track = target_seq.tracks[find_longest_track(target_seq)]
 
   # Find the longest track in source
   source_track = source_seq.tracks[find_longest_track(source_seq)]
@@ -241,7 +241,7 @@ def analyze_performance(user_id)
   set_first_note_time(source_track, get_first_note_time(target_track))
 
   # Shrink source to fit target (bpm is no longer meaningful)
-  shink_source_to_target_midi(source_track, target_track)
+  shrink_source_to_target_midi(source_track, target_track)
 
   # Make intervals from each note on/off
   target_intervals = intervals_from_track(target_track)
