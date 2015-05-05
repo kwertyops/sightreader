@@ -4,6 +4,9 @@ require 'midilib/consts'
 require_all "../src/include"
 require_relative "../../rb-music-theory/lib/rb-music-theory"
 
+###
+#   Generate a .png to display to the user
+###
 def generate_target(user_id)
 
   # Load params from the session
@@ -16,8 +19,9 @@ def generate_target(user_id)
   else
     # These are the default values for the params
     params = Hash.new
-    params['some_paramater_to_generate'] = 0
-    params['another_parameter'] = 1.0
+    params['some_param']      = 0
+    params['another_param']   = 1.0
+    params['yet_more_param']  = false
     print "\nCreating new session params"
 
     # save the params in the session
@@ -51,6 +55,9 @@ def generate_target(user_id)
 
 end
 
+###
+#   Compare the midi performance to the midi target, update parameters accordingly
+###
 def analyze_performance(user_id)
 
   # Load params (these are the user's
