@@ -41,6 +41,7 @@ def set_first_note_time(track, start_time)
   track.events.each { |event|
     if(event.is_a?(NoteOnEvent))
       event.delta_time = event.delta_time - (event.time_from_start - start_time)
+      break
     end
   }
   track.recalc_times
