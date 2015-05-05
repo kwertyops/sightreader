@@ -12,19 +12,20 @@ set :sessions => true
 get '/record' do
 
   # Look at all the lesson plan files
-  lesson_plan_files = []
+  @lesson_plan_files = []
   Find.find('lesson_plans') do |path|
-    lesson_plan_files << path if path =~ /.*\.rb$/
+    @lesson_plan_files << path if path =~ /.*\.rb$/
   end
-  lesson_plan_files.each { |path| path.slice!(".rb") }
+  @lesson_plan_files.each { |path| path.slice!(".rb") }
 
-  # Is there currently a lesson plan chosen?
+  # If there is no saved lesson plan, choose the first one
   if(!session.has_key?('lesson_plan'))
-    session['lesson_plan'] = lesson_plan_files[0]
+    session['lesson_plan'] = @lesson_plan_files[0]
   end
 
-  # Load the functions from chosen lesson plan
+  # Load the chosen lesson plan
   require_relative './'+session['lesson_plan']
+  print "\nrequiring" + session['lesson_plan'] + "\n"
   
   # Disposable user id generated each time the recording page loads
   # This will be the name of the performance midi file
@@ -34,7 +35,7 @@ get '/record' do
   generate_target(session['user_id'])
 
   # Load the html page
-  erb :record_metronome
+  erb :record_metronome #, locals: {:lesson_plans => lesson_plan_files}
 end
 
 post "/upload/midi" do 
@@ -59,6 +60,15 @@ post "/upload/midi" do
   # Return image
   encoded_image = Base64.encode64(File.open("uploads/" + filename + "_comp.gif", "rb").read)
   return encoded_image
+end
+
+get '/lesson/:index' do |index|
+  lesson_plan_files = []
+  Find.find('lesson_plans') do |path|
+    lesson_plan_files << path if path =~ /.*\.rb$/
+  end
+  lesson_plan_files.each { |path| path.slice!(".rb") }
+  session['lesson_plan'] = lesson_plan_files[index.to_i]
 end
 
 get '/logout' do

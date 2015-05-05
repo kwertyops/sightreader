@@ -1,4 +1,65 @@
 ###
+# No return
+###
+def read_midi_file_into_sequence(path, seq)
+  File.open(path, 'rb') { | file |
+    puts "Reading target midi..."
+      seq.read(file) { | track, num_tracks, i |
+          # Print something when each track is read.
+          puts "read track #{i} of #{num_tracks}"
+      }
+  }
+end
+
+###
+# Returns index of longest track
+###
+def find_longest_track(seq)
+  ret = 0
+  target_seq.each_with_index { |track, i|
+    ret = i if track.events.length > ret
+    puts "track target " + track.name + ": " + track.events.length.to_s
+  }
+  return ret
+end
+
+###
+# No return
+###
+def get_first_note_time(track)
+  track.events.each { |event|
+    if(event.is_a?(NoteOnEvent))
+      return event.time_from_start    
+    end
+  }
+end
+
+###
+# No return
+###
+def set_first_note_time(track, start_time)
+  track.events.each { |event|
+    if(event.is_a?(NoteOnEvent))
+      event.delta_time = event.delta_time - (event.time_from_start - start_time)
+    end
+  }
+  track.recalc_times
+end
+
+###
+# No return
+###
+def shrink_source_to_target_midi(source_track, target_track)
+  ratio = get_length_ratio(source_track, target_track)
+  source_track.each do |event|
+    if(event.is_a? NoteEvent)
+      event.delta_time = event.delta_time * ratio
+    end
+  end
+  source_track.recalc_times
+end
+
+###
 # Returns track
 ###
 def setup_seq(seq)

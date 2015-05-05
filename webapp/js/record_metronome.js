@@ -110,6 +110,17 @@ function changetimesignature(){
 function changetempo(){
  metronome_interval=60000./select_tempo.options[select_tempo.selectedIndex].value;
 }
+function changelesson(){
+  console.log("/lesson/"+$("#lesson_plans")[0].selectedIndex);
+  $.ajax({
+    type: "GET",
+    crossDomain: true,
+    url: "/lesson/"+$("#lesson_plans")[0].selectedIndex,
+    success: function(response){
+      location.reload();
+    }
+  });
+}
 function reload(){
   location.reload();
 }
@@ -125,13 +136,6 @@ function posttoserver(base64){
         //alert("It worked!");
         $("#score-display").html('<img style="max-width:1000px;" src="data:image/png;base64,' + response + '" />');
         // location.reload();
-//        $.ajax({
-//          type: "GET",
-//          url: '/performance',
-//          success: function (data) {
-//            $("#performance-display").attr('src','uploads/' + data  + '-1.png');
-//          }
-//       });
     }
   });
 }
