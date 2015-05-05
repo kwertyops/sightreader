@@ -228,8 +228,8 @@ def analyze_performance(user_id)
   source_seq = MIDI::Sequence.new()
 
   # Read the files into the sequences
-  read_midi_file_into_sequece('targets/'+user_id+'.mid', target_seq)
-  read_midi_file_into_sequece('uploads/'+user_id+'.mid', source_seq)
+  read_midi_file_into_sequence('targets/'+user_id+'.mid', target_seq)
+  read_midi_file_into_sequence('uploads/'+user_id+'.mid', source_seq)
 
   # Find the longest track in target
   target_track = target_seq.tracks[find_longest_track(target_track)]
