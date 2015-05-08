@@ -148,7 +148,7 @@ function posttoserver(base64){
     success: function(response){
         //alert("It worked!");
         $("#score-display").html('<img style="max-width:1000px;" src="data:image/png;base64,' + response + '" />');
-        location.reload();
+        setTimeout(reload, 2000);
     }
   });
 }

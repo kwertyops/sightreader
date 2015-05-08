@@ -151,7 +151,7 @@ def generate_target(user_id)
 
         # Insert chord names to display above staff
         if(line.include?("context Staff=") && 
-          params['chord_names'].floor != 0)
+          session['lesson_level'] >= 15)
           
           lilypond_chords = "    \\chords{ "
           printed_chords.each do |chord|
@@ -187,6 +187,8 @@ end
 
 def analyze_performance(user_id)
   params = session['lesson_params']
+    # lilypond_bin = ""
+  lilypond_bin = "../lilypond/bin/"
 
   options = {
     'possible_keys' => {
@@ -259,6 +261,7 @@ def analyze_performance(user_id)
 
   # Find the number of correct notes
   correct = 0
+  correct_notes = Array.new
   dtw_path.each do |target_index, source_notes|
     match = false
     target_noteon_y = target_intervals[target_index][0][1]
@@ -275,7 +278,48 @@ def analyze_performance(user_id)
     if(match == true)
       correct += 1
     end
+    correct_notes << match
   end
+
+  # Color the notes in the target lilypond file
+  File.open('targets/'+user_id+'.ly3', 'w') do |output| # 'w' for a new file, 'a' append to existing
+    editing_notes = false
+    current_target_note_num = 0
+    File.open('targets/'+user_id+'.ly2', 'r') do |input|
+      input.each_line do |line|
+
+        if(line.include?('\key'))
+          editing_notes = true
+          next
+        end
+
+        if(editing_notes)
+          notes_array = line.gsub(/\s+/m, ' ').strip.split(" ")
+          if(notes_array[0] == "}")
+            editing_notes = false
+            output.write("\n" + line)
+            next
+          end
+          if(notes_array[0] == "|")
+            next
+          end
+          notes_array.each do |note|
+            colored_string = "\n" 
+            colored_string += '\override NoteHead.color = #' 
+            colored_string += correct_notes[current_target_note_num] ? 'green' : 'red'
+            colored_string += "\n"
+            colored_string += note
+            output.write(colored_string)
+            current_target_note_num += 1
+          end
+        else
+          output.write(line)
+        end
+      end
+    end
+  end
+
+  system("#{lilypond_bin}lilypond --png -o uploads/#{user_id}_comp targets/#{user_id}.ly3")
 
   # Find the params that can be adjusted in the right direction
   adjustable = Array.new
@@ -308,12 +352,11 @@ def analyze_performance(user_id)
     params['notes_per_chord'] = params['notes_per_chord'] * 2 if step_modifier == 1
     params['notes_per_chord'] = params['notes_per_chord'] / 2 if step_modifier == -1
     session['lesson_params'] = params
-    return
+  else
+    # Normal params adjusted by step size
+    params[param_to_update] = params[param_to_update] + options[param_to_update][:step] * step_modifier
+    session['lesson_params'] = params
   end
-
-  # Normal params adjusted by step size
-  params[param_to_update] = params[param_to_update] + options[param_to_update][:step] * step_modifier
-  session['lesson_params'] = params
 
   session['lesson_level'] += step_modifier
   if(session['lesson_level'] == 0)

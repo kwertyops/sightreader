@@ -60,8 +60,11 @@ post "/upload/midi" do
   # compare_midi(session['target'], "uploads/" + filename)
 
   # Return image
-  encoded_image = Base64.encode64(File.open("uploads/" + filename + "_comp.gif", "rb").read)
+  encoded_image = Base64.encode64(File.open("uploads/" + filename + "_comp.png", "rb").read)
   return encoded_image
+
+  # Return user_id
+  # return session['user_id']
 end
 
 get '/lesson/:index' do |index|
