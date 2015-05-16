@@ -27,19 +27,20 @@ def generate_target(user_id)
     session['lesson_level'] = 1
   end
 
-  notes = [ 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B' ]  # For calculating octaves
-  
+  # For calculating octaves
+  notes = [ 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B' ]
+
   keys = [  {root: 'C', tonality: 'major', accidentals: 0},
-            {root: 'G', tonality: 'major', accidentals: 1},
-            {root: 'D', tonality: 'major', accidentals: 2},
-            {root: 'F', tonality: 'major', accidentals: -1},
-            {root: 'Bb', tonality: 'major', accidentals: -2},
-            {root: 'A', tonality: 'major', accidentals: 3},
-            {root: 'E', tonality: 'major', accidentals: 4},
             {root: 'A', tonality: 'minor', accidentals: 0},
-            {root: 'G', tonality: 'minor', accidentals: -2},
+            {root: 'G', tonality: 'major', accidentals: 1},
             {root: 'E', tonality: 'minor', accidentals: 1},
-            {root: 'D', tonality: 'minor', accidentals: -1} ]
+            {root: 'F', tonality: 'major', accidentals: -1},
+            {root: 'D', tonality: 'minor', accidentals: -1},
+            {root: 'D', tonality: 'major', accidentals: 2},
+            {root: 'Bb', tonality: 'major', accidentals: -2},
+            {root: 'G', tonality: 'minor', accidentals: -2},
+            {root: 'A', tonality: 'major', accidentals: 3},
+            {root: 'E', tonality: 'major', accidentals: 4} ]
 
   durations = { "1" =>  'w',
                 "2" =>  'h',
@@ -50,12 +51,19 @@ def generate_target(user_id)
                 "64" => 'x' }
 
   # Choose a random key signature from the list
-  key = keys[rand(0 ... params['possible_keys'])]
+  key = keys[rand(0 ... params['possible_keys'].floor)]
 
   # Generate all 7th chords for this key
   root = Note.new(key[:root])
   scale = root.send(key[:tonality]+"_scale")
-  chords = scale.all_harmonized_chords(key[:tonality].sub("or","")+"7_chord").map{|c| {note_values: c.note_values, note_names: c.note_names, chord_names: Scale.new(c.root_note, c.intervals).valid_chord_names_for_degree(1)}}
+  chords = scale.all_harmonized_chords(key[:tonality]
+                                       .sub("or","")+"7_chord")
+                .map{|c| {
+                  note_values: c.note_values,
+                  note_names: c.note_names,
+                  chord_names: Scale.new(c.root_note, c.intervals)
+                                 .valid_chord_names_for_degree(1) }
+                }
 
   # Get lilypond name for each chord
   chords.each do |chord|
@@ -66,7 +74,7 @@ def generate_target(user_id)
                         i.to_s.include?("fifth") ||
                         i.to_s.include?("seventh") ||
                         i.to_s.include?("half_dim") ||
-                        i.to_s.include?("min7_flat5") } 
+                        i.to_s.include?("min7_flat5") }
 
     # sample random name from among remaining to be chord type for this chord
     chord[:chord_name] = chord[:chord_names].sample.to_s
@@ -77,7 +85,7 @@ def generate_target(user_id)
     chord[:chord_name].sub!("min7", "m7")
     chord[:chord_name].sub!("dom7","7")
     chord[:chord_name].sub!("_chord", "")
-    
+
   end
 
   # Get jfugue note names for each note
@@ -123,13 +131,15 @@ def generate_target(user_id)
           octave = octave.to_s
         end
 
+        n_per_m = params['notes_per_chord'] * params['chords_per_measure'].floor
+
         jfugue_string += note_name
         jfugue_string += octave
-        jfugue_string += durations[(params['notes_per_chord'] * params['chords_per_measure'].floor).to_s]
+        jfugue_string += durations[(n_per_m).to_s]
         jfugue_string += " "
       end
     end
-  end 
+  end
 
   print "\nStaccato string: " + jfugue_string + "\n"
 
@@ -137,12 +147,12 @@ def generate_target(user_id)
   #
   print "\n" + 'java -cp "java/jfugue.jar:java" StaccatoToMidi ' + user_id + ' "' + jfugue_string + '"' + "\n"
   system('java -cp "java/jfugue.jar:java" StaccatoToMidi ' + user_id + ' "' + jfugue_string + '"')
-  
+
   # Generate lilypond from MIDI
   #
   midi2ly_key = key[:accidentals].to_s + ":" + (key[:tonality] == 'minor' ? "1" : "0")
   system("#{lilypond_bin}midi2ly -k #{midi2ly_key} -o targets/#{user_id}.ly targets/#{user_id}.mid")
-  
+
   # Modify the lilypond file before export to png (add chord names, color notes, add/remove flags, etc)
   #
   File.open('targets/'+user_id+'.ly2', 'w') do |output| # 'w' for a new file, 'a' append to existing
@@ -150,9 +160,9 @@ def generate_target(user_id)
       input.each_line do |line|
 
         # Insert chord names to display above staff
-        if(line.include?("context Staff=") && 
-          session['lesson_level'] >= 15)
-          
+        if(line.include?("context Staff=") &&
+          session['lesson_level'] >= 20)
+
           lilypond_chords = "    \\chords{ "
           printed_chords.each do |chord|
 
@@ -178,7 +188,7 @@ def generate_target(user_id)
       end
     end
   end
-  
+
   # Export lilypond to png
   #
   system("#{lilypond_bin}lilypond --png -o targets/#{user_id} targets/#{user_id}.ly2")
@@ -194,7 +204,7 @@ def analyze_performance(user_id)
     'possible_keys' => {
       low: 1,
       high: 11,
-      step: 1
+      step: 0.2
     },
     'measures'=> {
       low: 1,
@@ -265,11 +275,11 @@ def analyze_performance(user_id)
   dtw_path.each do |target_index, source_notes|
     match = false
     target_noteon_y = target_intervals[target_index][0][1]
-    
+
     # Look at all of the notes that were matched with this target note
     source_notes.each do |source_note|
       source_noteon_y = source_intervals[source_note][0][1]
-      
+
       # Just check if the pitch is correct
       if(source_noteon_y == target_noteon_y)
         match = true
@@ -304,8 +314,8 @@ def analyze_performance(user_id)
             next
           end
           notes_array.each do |note|
-            colored_string = "\n" 
-            colored_string += '\override NoteHead.color = #' 
+            colored_string = "\n"
+            colored_string += '\override NoteHead.color = #'
             colored_string += correct_notes[current_target_note_num] ? 'green' : 'red'
             colored_string += "\n"
             colored_string += note
@@ -346,7 +356,7 @@ def analyze_performance(user_id)
 
   # Update some random param
   param_to_update = adjustable.sample
-  
+
   # Notes per chord has special rules
   if(param_to_update == 'notes_per_chord')
     params['notes_per_chord'] = params['notes_per_chord'] * 2 if step_modifier == 1
