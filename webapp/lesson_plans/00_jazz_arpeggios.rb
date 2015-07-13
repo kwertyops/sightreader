@@ -121,8 +121,8 @@ def generate_target(user_id)
           s = n
         end
 
-        note_name = chord[:note_names][s]
-        octave = chord[:note_octaves][s]
+        note_name = chord[:note_names][s % 4]
+        octave = chord[:note_octaves][s % 4]
 
         # Random chance of octave shift
         if(rand(0.0..1.0) < params['prob_octave'])
